@@ -1,0 +1,56 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Event Booking page - Welcome and choose an Event</title>
+    <style type="text/css">
+        body {
+            width: 800px;
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Welcome to our Event Booking App</h1>
+</header>
+<main>
+    <h2>Choose an event:</h2>
+    <!-- Display radio buttons for each event,
+            the value should be the event name
+            and the displayed text should be Name: <event_name>, Description: <event_description>, Rating: <popularity_score> -->
+    <h2>Search by rating and text</h2>
+    <form th:action="@{/}" th:method="GET">
+        <label>
+            Text:
+            <input type="text" name="text" th:value="${param.text}">
+        </label>
+        <label>
+            Minimum Rating:
+            <input type="number" step="0.1" name="rating" th:value="${param.rating}">
+        </label>
+        <input type="submit" value="Search">
+    </form>
+    <form th:action="@{/}" th:method="POST">
+        <label>
+            Attendee Name:
+            <input type="text" name="attendeeName">
+        </label>
+        <ol>
+            <li th:each="event : ${events}">
+                <label>
+                    <input type="radio" name="selectedEventName" th:value="${event.name}"/>
+                    Name: <span th:text="${event.name}"></span>,
+                    Description: <span th:text="${event.description}"></span>,
+                    Rating: <span th:text="${event.popularityScore}"></span>
+                </label>
+            </li>
+        </ol>
+        <h2>Choose number of tickets:</h2>
+        <input type="number" name="selectedNumberOfTickets" min="1" max="10"><br/>
+        <br/>
+        <input type="submit" value="Submit">
+    </form>
+
+</main>
+</body>
+</html>
