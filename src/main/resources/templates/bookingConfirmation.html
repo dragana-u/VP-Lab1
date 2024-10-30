@@ -7,9 +7,11 @@
             width: 800px;
             margin: auto;
         }
+
         table {
-            width:100%;
+            width: 100%;
         }
+
         table, td, th {
             border: 1px solid black;
             padding: 3px 2px;
@@ -44,6 +46,14 @@
             <td th:text="${numTickets}"></td>
         </tr>
     </table>
+    <ol>
+        <li th:each="booking : ${bookings}">
+            Name: <span th:text="${booking.attendeeName}"></span>,
+            Event: <span th:text="${booking.eventName}"></span>,
+            Address: <span th:text="${booking.attendeeAddress}"></span>
+            Num tickets: <span th:text="${booking.numberOfTickets}"></span>
+        </li>
+    </ol>
 </section>
 </body>
 </html>

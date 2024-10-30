@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import mk.finki.ukim.mk.lab.model.EventBooking;
 import mk.finki.ukim.mk.lab.service.EventBookingService;
 import org.thymeleaf.context.WebContext;
 import org.thymeleaf.spring6.SpringTemplateEngine;
@@ -13,6 +14,7 @@ import org.thymeleaf.web.IWebExchange;
 import org.thymeleaf.web.servlet.JakartaServletWebApplication;
 
 import java.io.IOException;
+import java.util.List;
 
 @WebServlet(name = "EventBookingServlet", urlPatterns = "/eventBooking")
 public class EventBookingServlet extends HttpServlet {
@@ -46,6 +48,9 @@ public class EventBookingServlet extends HttpServlet {
 
         eventBookingService.placeBooking(eventName, attendeeName, clientIpAddress, Long.parseLong(numTickets));
 
+        List<EventBooking> bookings = eventBookingService.byUser(attendeeName);
+
+        context.setVariable("bookings",bookings);
         springTemplateEngine.process("bookingConfirmation.html", context, resp.getWriter());
     }
 

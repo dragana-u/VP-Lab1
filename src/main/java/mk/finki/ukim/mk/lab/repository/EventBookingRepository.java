@@ -17,4 +17,8 @@ public class EventBookingRepository {
         DataHolder.eventBookings.add(eventBooking);
         return eventBooking;
     }
+
+    public List<EventBooking> byUser(String attendeeName) {
+        return DataHolder.eventBookings.stream().filter(r -> r.getAttendeeName().equals(attendeeName)).toList();
+    }
 }

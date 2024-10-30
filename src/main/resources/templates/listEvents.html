@@ -31,10 +31,10 @@
         <input type="submit" value="Search">
     </form>
     <form th:action="@{/}" th:method="POST">
-        <label>
-            Attendee Name:
-            <input type="text" name="attendeeName">
-        </label>
+<!--        <label>-->
+<!--            Attendee Name:-->
+<!--            <input type="text" name="attendeeName">-->
+<!--        </label>-->
         <ol>
             <li th:each="event : ${events}">
                 <label>

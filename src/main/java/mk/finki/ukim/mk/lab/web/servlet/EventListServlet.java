@@ -65,7 +65,7 @@ public class EventListServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String eventName = req.getParameter("selectedEventName");
         String numberOfTicketsStr = req.getParameter("selectedNumberOfTickets");
-        String attendeeName = req.getParameter("attendeeName");
+        String attendeeName = req.getSession().getAttribute("name").toString();
 
         Long numTickets = 0L;
 
