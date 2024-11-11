@@ -31,23 +31,23 @@
         </tr>
         <tr>
             <td><b>Attendee Name </b></td>
-            <td th:text="${attendeeName}"></td>
+            <td th:text="${currentBooking.attendeeName}"></td>
         </tr>
         <tr>
             <td><b>Client IP Address</b></td>
-            <td th:text="${clientIpAddress}"></td>
+            <td th:text="${currentBooking.attendeeAddress}"></td>
         </tr>
         <tr>
             <td><b>Booking for Event</b></td>
-            <td th:text="${eventName}"></td>
+            <td th:text="${currentBooking.eventName}"></td>
         </tr>
         <tr>
             <td><b>Number of tickets</b></td>
-            <td th:text="${numTickets}"></td>
+            <td th:text="${currentBooking.numberOfTickets}"></td>
         </tr>
     </table>
     <ol>
-        <li th:each="booking : ${bookings}">
+        <li th:each="booking : ${bookingEvents}">
             Name: <span th:text="${booking.attendeeName}"></span>,
             Event: <span th:text="${booking.eventName}"></span>,
             Address: <span th:text="${booking.attendeeAddress}"></span>

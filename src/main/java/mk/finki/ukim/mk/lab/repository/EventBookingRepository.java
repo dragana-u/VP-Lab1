@@ -5,6 +5,7 @@ import mk.finki.ukim.mk.lab.model.EventBooking;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class EventBookingRepository {
@@ -20,5 +21,9 @@ public class EventBookingRepository {
 
     public List<EventBooking> byUser(String attendeeName) {
         return DataHolder.eventBookings.stream().filter(r -> r.getAttendeeName().equals(attendeeName)).toList();
+    }
+
+    public Optional<EventBooking> findById(Long id) {
+        return DataHolder.eventBookings.stream().filter(b -> b.getId().equals(id)).findFirst();
     }
 }

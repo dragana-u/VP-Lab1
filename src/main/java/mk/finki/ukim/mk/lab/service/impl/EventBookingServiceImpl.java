@@ -6,6 +6,7 @@ import mk.finki.ukim.mk.lab.service.EventBookingService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class EventBookingServiceImpl implements EventBookingService {
@@ -24,6 +25,11 @@ public class EventBookingServiceImpl implements EventBookingService {
     @Override
     public List<EventBooking> findAll() {
         return eventBookingRepository.findAll();
+    }
+
+    @Override
+    public Optional<EventBooking> findById(Long id) {
+        return eventBookingRepository.findById(id);
     }
 
     @Override
