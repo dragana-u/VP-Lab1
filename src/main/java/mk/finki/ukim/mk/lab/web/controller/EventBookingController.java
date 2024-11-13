@@ -40,12 +40,17 @@ public class EventBookingController {
             model.addAttribute("error", error);
         }
 
-        EventBooking currentBooking = bookingService.findById(currentBookingId).orElseThrow(() -> new EventBookingNotFoundException(currentBookingId));
+        try {
+            EventBooking currentBooking = bookingService.findById(currentBookingId)
+                    .orElseThrow(() -> new EventBookingNotFoundException(currentBookingId));
 
-        List<EventBooking> bookingEvents = bookingService.byUser(currentBooking.getAttendeeName());
-        model.addAttribute("bookingEvents", bookingEvents);
-        model.addAttribute("currentBooking", currentBooking);
+            List<EventBooking> bookingEvents = bookingService.byUser(currentBooking.getAttendeeName());
+            model.addAttribute("bookingEvents", bookingEvents);
+            model.addAttribute("currentBooking", currentBooking);
 
-        return "bookingConfirmation";
+            return "bookingConfirmation";
+        } catch (EventBookingNotFoundException e) {
+            return "redirect:/events?error=" + e.getMessage();
+        }
     }
 }

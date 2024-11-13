@@ -30,6 +30,7 @@
                            class="form-control"
                            id="description"
                            name="description"
+                           required
                            th:value="(${event} != null ? ${event.getDescription()} : '')"
                            placeholder="Description">
                 </div>
@@ -40,12 +41,13 @@
                            class="form-control"
                            id="popularityScore"
                            name="popularityScore"
+                           required
                            th:value="(${event} != null ? ${event.getPopularityScore()} : '')"
                            placeholder="Score">
                 </div>
                 <div class="form-group">
                     <label>Location</label>
-                    <select name="locationId" class="form-control">
+                    <select name="locationId" class="form-control" required>
                         <option th:if="${event} != null"
                                 th:selected="${event.getLocation() != null &&
                                 event.getLocation().getId() == location.getId()}"
@@ -60,7 +62,7 @@
                         </option>
                     </select>
                 </div>
-                <button id="submit" type="submit" class="btn btn-primary">Submit</button>
+                <button id="submit" type="submit" class="btn btn-success">Submit</button>
                 <a type="button" class="btn btn-primary" href="/events">Back</a>
             </form>
         </div>

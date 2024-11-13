@@ -26,4 +26,10 @@ public class EventBookingRepository {
     public Optional<EventBooking> findById(Long id) {
         return DataHolder.eventBookings.stream().filter(b -> b.getId().equals(id)).findFirst();
     }
+
+    public List<EventBooking> findByEvent(String eventName) {
+        return DataHolder.eventBookings
+                .stream()
+                .filter(eventBooking -> eventBooking.getEventName().equals(eventName)).toList();
+    }
 }

@@ -3,6 +3,7 @@ package mk.finki.ukim.mk.lab.web.controller;
 import mk.finki.ukim.mk.lab.model.Event;
 import mk.finki.ukim.mk.lab.model.Location;
 import mk.finki.ukim.mk.lab.model.exceptions.EventNotFoundException;
+import mk.finki.ukim.mk.lab.service.EventBookingService;
 import mk.finki.ukim.mk.lab.service.EventService;
 import mk.finki.ukim.mk.lab.service.LocationService;
 import org.springframework.stereotype.Controller;
@@ -17,10 +18,12 @@ public class EventController {
 
     private final EventService eventService;
     private final LocationService locationService;
+    private final EventBookingService eventBookingService;
 
-    public EventController(EventService eventService, LocationService locationService) {
+    public EventController(EventService eventService, LocationService locationService, EventBookingService eventBookingService) {
         this.eventService = eventService;
         this.locationService = locationService;
+        this.eventBookingService = eventBookingService;
     }
 
     @GetMapping
@@ -31,6 +34,24 @@ public class EventController {
         }
 
         List<Event> events = eventService.listAll();
+        model.addAttribute("events", events);
+
+        return "listEvents";
+    }
+
+    @PostMapping
+    public String searchEvents(@RequestParam(required = false) String text,
+                               @RequestParam(required = false) Double rating,
+                               Model model) {
+        List<Event> events = eventService.listAll();
+        if (!text.isEmpty()) {
+            events = eventService.searchEvents(text);
+        }
+        if (rating != null) {
+            List<Event> temp;
+            temp = eventService.searchByRating(rating);
+            events = temp.stream().filter(events::contains).toList();
+        }
         model.addAttribute("events", events);
 
         return "listEvents";
@@ -63,7 +84,7 @@ public class EventController {
     }
 
     @PostMapping("/add")
-    public String saveEvent(@RequestParam (required = false) Long eventId,
+    public String saveEvent(@RequestParam(required = false) Long eventId,
                             @RequestParam String name,
                             @RequestParam String description,
                             @RequestParam Double popularityScore,
@@ -72,5 +93,12 @@ public class EventController {
         return "redirect:/events";
     }
 
+    @GetMapping("/details/{id}")
+    public String getEventDetails(@PathVariable Long id, Model model) {
+        Event event = eventService.findEventById(id).orElseThrow(() -> new EventNotFoundException(id));
+        model.addAttribute("eventBookings",eventBookingService.findByEvent(event.getName()));
+        model.addAttribute("event", event);
+        return "eventDetails";
+    }
 
 }

@@ -13,4 +13,6 @@ public interface EventBookingService{
     Optional<EventBooking> findById(Long id);
 
     List<EventBooking> byUser(String attendeeName);
+
+    List<EventBooking> findByEvent(String eventName);
 }

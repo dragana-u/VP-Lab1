@@ -36,4 +36,9 @@ public class EventBookingServiceImpl implements EventBookingService {
     public List<EventBooking> byUser(String attendeeName) {
         return eventBookingRepository.byUser(attendeeName);
     }
+
+    @Override
+    public List<EventBooking> findByEvent(String eventName) {
+        return eventBookingRepository.findByEvent(eventName);
+    }
 }

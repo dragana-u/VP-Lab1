@@ -40,85 +40,87 @@
 
 </head>
 <body>
-<header>
-    <h1>Welcome to our Event Booking App</h1>
+<header class="my-4">
+    <h1 class="text-center">Welcome to our Event Booking App</h1>
 </header>
 <main>
-    <!-- Display radio buttons for each event,
-            the value should be the event name
-            and the displayed text should be Name: <event_name>, Description: <event_description>, Rating: <popularity_score> -->
     <div th:if="${error}" class="alert alert-danger" role="alert">
         <p th:text="${error}"></p>
     </div>
-    <h2>Search by rating and text</h2>
-    <form th:action="@{/}" th:method="GET">
-        <label>
-            Text:
-            <input type="text" name="text" th:value="${param.text}">
-        </label>
-        <label>
-            Minimum Rating:
-            <input type="number" step="0.1" name="rating" th:value="${param.rating}">
-        </label>
-        <input type="submit" value="Search">
-    </form>
-    <form th:action="@{'/eventBookingConfirmation'}" th:method="POST">
-    <h2>Choose an event:</h2>
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>Select</th>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Rating</th>
-            <th>Location</th>
-            <th>Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="event : ${events}">
-            <td th:text="${event.id}"></td>
-            <td>
-                <input type="radio" name="selectedEventName" th:value="${event.name}"/>
-            </td>
-            <td th:text="${event.name}"></td>
-            <td th:text="${event.description}"></td>
-            <td th:text="${event.popularityScore}"></td>
-            <td th:text="${event.location.name}"></td>
-            <td>
-                <div class="button-group">
-                    <button type="button" class="btn btn-sm btn-danger delete-product"
-                            th:onclick="'deleteEvent(' + ${event.id} + ')'">
-                        <i class="fa fa-trash">Delete</i>
-                    </button>
-                    <a th:href="@{'/events/edit-form/{id}' (id=${event.getId()})}"
-                       class="btn btn-sm btn-info edit-form" style="color: white;">
-                        <i class="fa fa-pencil">Edit</i>
-                    </a>
-                </div>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-    <div class="col mb-3">
-        <div class="row">
-            <div class="col-sm-12 col-md-12">
-                <a href="/events/add-form" class="btn btn-block	btn-success add-form-btn">
-                    Add new event
-                </a>
+    <div class="container">
+        <h2 class="my-4">Search by rating and text</h2>
+        <form th:action="@{/events}" th:method="POST" class="row g-3 mb-4">
+            <div class="col-md-4">
+                <label for="text" class="form-label">Text:</label>
+                <input type="text" name="text" th:value="${text}" class="form-control" id="text">
             </div>
-        </div>
+            <div class="col-md-4">
+                <label for="rating" class="form-label">Minimum Rating:</label>
+                <input type="number" step="0.1" name="rating" th:value="${rating}" class="form-control" id="rating">
+            </div>
+            <div class="col-md-4 d-flex align-items-end">
+                <input type="submit" value="Search" class="btn btn-primary w-100">
+            </div>
+        </form>
+        <form th:action="@{'/eventBookingConfirmation'}" th:method="POST">
+            <h2 class="my-4">Choose an event:</h2>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Select</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Rating</th>
+                    <th>Location</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="event : ${events}">
+                    <td th:text="${event.id}"></td>
+                    <td>
+                        <input required type="radio" name="selectedEventName" th:value="${event.name}" class="form-check-input"/>
+                    </td>
+                    <td th:text="${event.name}"></td>
+                    <td th:text="${event.description}"></td>
+                    <td th:text="${event.popularityScore}"></td>
+                    <td th:text="${event.location.name}"></td>
+                    <td>
+                        <div class="button-group">
+                            <button type="button" class="btn btn-sm btn-danger delete-product"
+                                    th:onclick="'deleteEvent(' + ${event.id} + ')'">
+                                <i class="fa fa-trash">Delete</i>
+                            </button>
+                            <a th:href="@{'/events/edit-form/{id}' (id=${event.getId()})}"
+                               class="btn btn-sm btn-info edit-form" style="color: white;">
+                                <i class="fa fa-pencil">Edit</i>
+                            </a>
+                            <a th:href="@{'/events/details/{id}' (id=${event.getId()})}"
+                               class="btn btn-sm btn-info details" style="color: white;">
+                                <i class="fa fa-pencil">Details</i>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="mb-3">
+                <a href="/events/add-form" class="btn btn-success">Add new event</a>
+            </div>
+            <div class="mb-3">
+                <label for="attendeeName" class="form-label">Name:</label>
+                <input type="text" id="attendeeName" name="attendeeName" required class="form-control">
+            </div>
+            <div class="mb-3">
+                <label for="selectedNumberOfTickets" class="form-label">Choose number of tickets:</label>
+                <input type="number" name="selectedNumberOfTickets" min="1" max="10" class="form-control" id="selectedNumberOfTickets">
+            </div>
+            <div class="mb-3">
+                <input type="submit" value="Submit" class="btn btn-primary">
+            </div>
+        </form>
     </div>
-    <label for="attendeeName">Name:</label><br>
-    <input type="text" id="attendeeName" name="attendeeName" required><br>
-    <label>
-        Choose number of tickets:
-        <input type="number" name="selectedNumberOfTickets" min="1" max="10">
-    </label>
-    <br/>
-        <input type="submit" value="Submit">
-    </form>
 </main>
 </body>
 </html>
