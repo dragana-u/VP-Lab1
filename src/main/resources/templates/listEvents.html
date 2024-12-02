@@ -48,15 +48,26 @@
         <p th:text="${error}"></p>
     </div>
     <div class="container">
-        <h2 class="my-4">Search by rating and text</h2>
+        <h2 class="my-4">Search by rating, text and location</h2>
         <form th:action="@{/events}" th:method="POST" class="row g-3 mb-4">
             <div class="col-md-4">
                 <label for="text" class="form-label">Text:</label>
                 <input type="text" name="text" th:value="${text}" class="form-control" id="text">
             </div>
             <div class="col-md-4">
-                <label for="rating" class="form-label">Minimum Rating:</label>
+                <label for="rating" class="form-label">Rating:</label>
                 <input type="number" step="0.1" name="rating" th:value="${rating}" class="form-control" id="rating">
+            </div>
+            <div class="col-md-4">
+                <label>Location</label>
+                <select name="location_id" class="form-control">
+                    <option value="" selected>Select a location</option>
+                    <option
+                            th:each="location : ${locations}"
+                            th:value="${location.getId()}"
+                            th:text="${location.getName()}">
+                    </option>
+                </select>
             </div>
             <div class="col-md-4 d-flex align-items-end">
                 <input type="submit" value="Search" class="btn btn-primary w-100">

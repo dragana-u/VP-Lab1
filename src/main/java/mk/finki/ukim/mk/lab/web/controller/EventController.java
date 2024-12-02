@@ -33,6 +33,9 @@ public class EventController {
             model.addAttribute("error", error);
         }
 
+        List<Location> locations = locationService.findAll();
+        model.addAttribute("locations", locations);
+
         List<Event> events = eventService.listAll();
         model.addAttribute("events", events);
 
@@ -42,16 +45,28 @@ public class EventController {
     @PostMapping
     public String searchEvents(@RequestParam(required = false) String text,
                                @RequestParam(required = false) Double rating,
+                               @RequestParam(required = false) Long location_id,
                                Model model) {
         List<Event> events = eventService.listAll();
+        List<Location> locations = locationService.findAll();
+        model.addAttribute("locations", locations);
         if (!text.isEmpty()) {
-            events = eventService.searchEvents(text);
+//            events = eventService.searchEvents(text);
+            events = eventService.findAllByDescription(text);
         }
         if (rating != null) {
             List<Event> temp;
-            temp = eventService.searchByRating(rating);
+//            temp = eventService.searchByRating(rating);
+            temp = eventService.findAllByPopularityScore(rating);
             events = temp.stream().filter(events::contains).toList();
         }
+
+        if (location_id != null) {
+            List<Event> temp;
+            temp = eventService.findAllByLocation_Id(location_id);
+            events = temp.stream().filter(events::contains).toList();
+        }
+
         model.addAttribute("events", events);
 
         return "listEvents";

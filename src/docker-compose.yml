@@ -1,0 +1,13 @@
+version: "3"
+services:
+  event-db:
+    image: "postgres"
+    container_name: "event-container"
+    environment:
+      - POSTGRES_USER=dragana
+      - POSTGRES_PASSWORD=1234
+      - POSTGRES_DB=eventDB
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./my-event-app:/var/lib/postgresql/data
