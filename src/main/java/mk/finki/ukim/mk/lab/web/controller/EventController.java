@@ -6,6 +6,7 @@ import mk.finki.ukim.mk.lab.model.exceptions.EventNotFoundException;
 import mk.finki.ukim.mk.lab.service.EventBookingService;
 import mk.finki.ukim.mk.lab.service.EventService;
 import mk.finki.ukim.mk.lab.service.LocationService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -73,6 +74,7 @@ public class EventController {
     }
 
     @PostMapping("/delete/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public String deleteEvent(@PathVariable Long id) {
         eventService.findEventById(id).orElseThrow(() -> new EventNotFoundException(id));
         eventService.deleteEventById(id);
@@ -80,6 +82,7 @@ public class EventController {
     }
 
     @GetMapping("/edit-form/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public String editEventsPage(@PathVariable Long id, Model model) {
         if (this.eventService.findEventById(id).isPresent()) {
             List<Location> locations = locationService.findAll();
@@ -92,6 +95,7 @@ public class EventController {
 
 
     @GetMapping("/add-form")
+    @PreAuthorize("hasRole('ADMIN')")
     public String addEventPage(Model model) {
         List<Location> locations = locationService.findAll();
         model.addAttribute("locations", locations);
@@ -99,6 +103,7 @@ public class EventController {
     }
 
     @PostMapping("/add")
+    @PreAuthorize("hasRole('ADMIN')")
     public String saveEvent(@RequestParam(required = false) Long eventId,
                             @RequestParam String name,
                             @RequestParam String description,
