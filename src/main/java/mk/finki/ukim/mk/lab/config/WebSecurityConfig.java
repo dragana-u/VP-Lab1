@@ -36,9 +36,9 @@ public class WebSecurityConfig {
                         .frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin)
                 )
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/events", "eventBookingConfirmation", "/events/details/*", "/login", "/h2/**")
+                        .requestMatchers("/events", "eventBookingConfirmation", "/events/details/*", "/login")
                         .permitAll()
-                        .requestMatchers("/events/edit-form/*","/events/delete/*","/events/add-form","/events/add").hasRole("ADMIN")
+                        .requestMatchers("/events/edit-form/*","/events/delete/*","/events/add-form","/events/add", "/h2/**").hasRole("ADMIN")
                         .anyRequest()
                         .authenticated()
                 )
